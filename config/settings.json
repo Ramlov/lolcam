@@ -1,0 +1,67 @@
+{
+  "app": {
+    "name": "Selfie Booth",
+    "version": "2.0.0",
+    "log_level": "INFO",
+    "auto_start": true
+  },
+  "camera": {
+    "preview_size": [1024, 768],
+    "capture_size": [1920, 1080],
+    "rotation": 0,
+    "zoom_level": 1.0,
+    "exposure": "auto",
+    "white_balance": "auto"
+  },
+  "serial": {
+    "port": "/dev/ttyUSB0",
+    "baud_rate": 9600,
+    "timeout": 1,
+    "trigger_command": "1",
+    "flash_delay": 0.1
+  },
+  "overlay": {
+    "file_path": "ui/assets/overlays/default.png",
+    "enabled": true,
+    "position": [0, 0],
+    "scale": 1.0,
+    "opacity": 0.8
+  },
+  "upload": {
+    "auto_upload": true,
+    "max_retries": 3,
+    "retry_delay": 5,
+    "compress_quality": 85,
+    "google_drive_folder": "SelfieBooth"
+  },
+  "google_drive": {
+    "token_path": "config/token.json",
+    "credentials_file": "config/credentials.json",
+    "scopes": ["https://www.googleapis.com/auth/drive.file"],
+    "parent_folder_id": null
+  },
+  "session": {
+    "max_photos": 10,
+    "timeout_minutes": 30,
+    "offline_retention_days": 7
+  },
+  "admin": {
+    "pin_code": "1234",
+    "session_timeout": 900
+  },
+  "wifi": {
+    "ssid": "",
+    "password": ""
+  },
+  "ui": {
+    "theme": "dark",
+    "language": "en",
+    "countdown_duration": 3,
+    "preview_duration": 30
+  },
+  "directories": {
+    "pictures_path": "/home/pi/Pictures/selfie-booth",
+    "logs_path": "/home/pi/logs/selfie-booth",
+    "temp_path": "/tmp/selfie-booth"
+  }
+}
