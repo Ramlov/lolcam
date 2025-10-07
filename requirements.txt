@@ -1,4 +1,4 @@
-kivy[base]>=2.3.0
+kivy>=2.3.0
 kivymd>=1.1.1
 picamera2>=0.3.7
 Pillow>=10.0.0
