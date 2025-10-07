@@ -2,7 +2,7 @@
 echo "🔧 Fixing Selfie Booth Installation..."
 
 # Navigate to your project directory
-cd ~/selfie-booth
+cd ~/newlolcam/lolcam
 
 # Clear pip cache
 pip cache purge
