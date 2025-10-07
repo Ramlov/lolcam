@@ -37,7 +37,7 @@ class SelfieBoothCore:
             # Initialize network monitor
             self.network_monitor.start_monitoring()
             
-            # Initialize drive uploader (will handle auth when needed)
+            # Initialize drive uploader
             self.drive_uploader.initialize()
             
             # Start background tasks
@@ -77,7 +77,7 @@ class SelfieBoothCore:
         """Process photos in offline queue"""
         try:
             queue = self.session_manager.get_offline_queue()
-            for item in queue[:]:  # Copy for safe iteration
+            for item in queue[:5]:  # Process max 5 at a time
                 try:
                     # Upload photo
                     drive_url = self.drive_uploader.upload_photo(

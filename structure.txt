@@ -1,0 +1,33 @@
+selfie-booth/
+├── main.py
+├── core/
+│   ├── __init__.py
+│   ├── app.py
+│   ├── camera_manager.py
+│   ├── drive_uploader.py
+│   ├── session_manager.py
+│   └── network_monitor.py
+├── ui/
+│   ├── __init__.py
+│   ├── components/
+│   │   ├── __init__.py
+│   │   ├── camera_widget.py
+│   │   ├── qr_generator.py
+│   │   └── modern_buttons.py
+│   ├── screens/
+│   │   ├── __init__.py
+│   │   ├── live_view.py
+│   │   ├── preview.py
+│   │   └── settings.py
+│   └── assets/
+│       └── overlays/
+├── utils/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── logger.py
+│   └── helpers.py
+├── config/
+│   └── settings.json
+├── requirements.txt
+├── setup_kiosk.sh
+└── test_app.py

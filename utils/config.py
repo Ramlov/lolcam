@@ -20,14 +20,26 @@ class AppConfig:
                 "rotation": 0,
                 "zoom_level": 1.0
             },
+            "serial": {
+                "port": "/dev/ttyUSB0",
+                "baud_rate": 9600,
+                "timeout": 1,
+                "trigger_command": "1",
+                "flash_delay": 0.1
+            },
             "overlay": {
                 "file_path": "ui/assets/overlays/default.png",
                 "enabled": True
             },
             "upload": {
                 "auto_upload": True,
-                "google_drive_folder": "SelfieBooth",
-                "max_retries": 3
+                "google_drive_folder": "SelfieBooth"
+            },
+            "google_drive": {
+                "token_path": "config/token.json",
+                "credentials_file": "config/credentials.json",
+                "scopes": ["https://www.googleapis.com/auth/drive.file"],
+                "parent_folder_id": None
             },
             "session": {
                 "max_photos": 10,
@@ -40,14 +52,7 @@ class AppConfig:
             "directories": {
                 "pictures_path": "/home/pi/Pictures/selfie-booth",
                 "logs_path": "/home/pi/logs"
-            },
-            "serial": {
-                "port": "/dev/ttyUSB0",
-                "baud_rate": 9600,
-                "timeout": 1,
-                "trigger_command": "1",  # Command to send via serial
-                "flash_delay": 0.1       # Delay after trigger before capture
-            },
+            }
         }
         
         # Load user config if exists
@@ -75,15 +80,20 @@ class AppConfig:
         keys = key.split('.')
         value = self._config
         for k in keys:
-            value = value.get(k, {})
-        return value if value != {} else default
+            if isinstance(value, dict) and k in value:
+                value = value[k]
+            else:
+                return default
+        return value
     
     def set(self, key, value):
         """Set config value"""
         keys = key.split('.')
         config_ref = self._config
         for k in keys[:-1]:
-            config_ref = config_ref.setdefault(k, {})
+            if k not in config_ref:
+                config_ref[k] = {}
+            config_ref = config_ref[k]
         config_ref[keys[-1]] = value
     
     def save(self):

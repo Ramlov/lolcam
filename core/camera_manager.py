@@ -3,6 +3,7 @@ import asyncio
 import logging
 import serial
 import time
+import numpy as np
 from PIL import Image, ImageOps
 from picamera2 import Picamera2
 from libcamera import controls
@@ -44,7 +45,7 @@ class CameraManager:
             return False
         
         try:
-            # Send trigger signal (adjust command as needed for your flash)
+            # Send trigger signal
             trigger_command = self.config.get('serial.trigger_command', b'1')
             self.serial_conn.write(trigger_command)
             logger.info("Flash trigger signal sent")
@@ -68,8 +69,30 @@ class CameraManager:
                 logger.info(f"Overlay loaded: {overlay_path}")
             else:
                 logger.warning("No overlay image found")
+                # Create a simple default overlay for testing
+                self._create_default_overlay()
         except Exception as e:
             logger.error(f"Error loading overlay: {e}")
+            self._create_default_overlay()
+    
+    def _create_default_overlay(self):
+        """Create a default overlay for testing"""
+        try:
+            from PIL import ImageDraw, ImageFont
+            # Create a simple text overlay
+            overlay = Image.new('RGBA', (400, 200), (255, 255, 255, 128))
+            draw = ImageDraw.Draw(overlay)
+            # Try to use a font, fallback to default
+            try:
+                font = ImageFont.truetype("arial.ttf", 40)
+            except:
+                font = ImageFont.load_default()
+            draw.text((50, 80), "SELFIE BOOTH", fill=(255, 0, 0, 255), font=font)
+            self.current_overlay = overlay
+            logger.info("Default overlay created")
+        except Exception as e:
+            logger.error(f"Error creating default overlay: {e}")
+            self.current_overlay = None
     
     def initialize(self):
         """Initialize camera"""
@@ -132,6 +155,19 @@ class CameraManager:
         """Start camera preview"""
         if self.is_initialized:
             logger.info("Camera preview started")
+    
+    def get_preview_frame(self):
+        """Get current preview frame as numpy array"""
+        if not self.is_initialized or not self.picam2:
+            return None
+        
+        try:
+            # Capture array from camera
+            frame = self.picam2.capture_array()
+            return frame
+        except Exception as e:
+            logger.error(f"Error getting preview frame: {e}")
+            return None
     
     async def capture_image(self, filename=None):
         """Capture image asynchronously with flash trigger"""
@@ -219,7 +255,7 @@ class CameraManager:
             return image_path
     
     def test_flash(self):
-        """Test flash trigger (for admin settings)"""
+        """Test flash trigger"""
         if self.serial_conn:
             success = self._trigger_flash()
             return success

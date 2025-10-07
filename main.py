@@ -7,14 +7,14 @@ from kivy.core.window import Window
 
 # Configure Kivy before any other imports
 Config.set('kivy', 'log_level', 'warning')
-Config.set('graphics', 'multisamples', '0')  # Improve performance
-Config.set('input', 'mouse', 'mouse,disable_multitouch')  # Better for touch
+Config.set('graphics', 'multisamples', '0')
+Config.set('input', 'mouse', 'mouse,disable_multitouch')
 
 # Set fullscreen for kiosk mode
 Window.fullscreen = 'auto'
 Window.show_cursor = False
 
-# Add src to path
+# Add current directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from kivymd.app import MDApp
